@@ -3,7 +3,7 @@
 Author: Aneeq Harris ST10479242
 Year: 2025
 Framework: Expo (React Native + TypeScript)
-Purpose: Mobile App Scripting POE — Part 2
+Purpose: Mobile App Scripting Summative Portfolio Of Evidence
 
 # Christoffel's Menu App
 A simple and elegant React Native app (built with Expo and TypeScript) that allows a chef to create, view, and manage their restaurant menu dynamically.
@@ -46,7 +46,7 @@ This app was created for a coursework task to demonstrate basic React Native com
 
 ---
 
-## 🧑‍🍳 Usage Instructions
+## Usage Instructions
 
 ### 1. Clone or Create the Project
 If starting fresh, create a new Expo app:
@@ -54,7 +54,7 @@ npx create-expo-app chef-menu-app -t expo-template-blank-typescript
 
 npm install @react-native-picker/picker
 
-## 🎨 Design Notes
+## Design Notes
 
 Color palette inspired by rustic restaurant tones (warm browns and creams).
 
@@ -62,7 +62,7 @@ Clean spacing and rounded cards for a friendly, aesthetic appearance.
 
 Layout avoids common FlatList and ScrollView nesting issues for smooth scrolling and dropdowns.
 
-Changelog
+## Changelog
 
 1. Expo & Package Version Updates
 
@@ -107,10 +107,7 @@ Verified that the project runs without console warnings.
 
 
 ##Screen Shots
-<img width="357" height="666" alt="Screenshot 2025-10-22 174915" src="https://github.com/user-attachments/assets/0d8e1b0e-87c6-47bf-9f5d-052b5ba22709" />
-<img width="357" height="666" alt="Screenshot 2025-10-22 174929" src="https://github.com/user-attachments/assets/7cc91217-8355-4f80-a157-9a3cad6fe068" />
-<img width="357" height="668" alt="Screenshot 2025-10-22 175044" src="https://github.com/user-attachments/assets/6050ed79-4b81-4d0e-9757-f58be9cc592c" />
-<img width="359" height="668" alt="Screenshot 2025-10-22 175053" src="https://github.com/user-attachments/assets/d233dae5-3e64-4b6f-86b3-80fab83de0a4" />
+
 
 
 
