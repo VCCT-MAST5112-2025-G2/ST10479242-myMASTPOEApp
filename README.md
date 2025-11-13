@@ -107,6 +107,14 @@ Verified that the project runs without console warnings.
 
 
 ##Screen Shots
+![WhatsApp Image 2025-11-13 at 20 23 31_731ef901](https://github.com/user-attachments/assets/9bd81ddb-15f9-415d-89f3-067e9461f8d3)
+![WhatsApp Image 2025-11-13 at 20 23 31_1ddf706a](https://github.com/user-attachments/assets/802d3cd0-e217-4e84-802f-22d04ff83080)
+![WhatsApp Image 2025-11-13 at 20 23 31_52b9927c](https://github.com/user-attachments/assets/c19bcb16-0b40-4460-a9e3-b0d7191383bc)
+![WhatsApp Image 2025-11-13 at 20 23 30_08b97117](https://github.com/user-attachments/assets/b50e390d-ce28-47da-9909-7b4680e7fe5a)
+![WhatsApp Image 2025-11-13 at 20 23 30_cdc86a39](https://github.com/user-attachments/assets/fedeacb2-90c5-4e84-bbaf-86394c911e8c)
+![WhatsApp Image 2025-11-13 at 20 23 29_e7205e08](https://github.com/user-attachments/assets/80ce4280-6ddf-4c9f-8dfd-106c1fc695a6)
+![WhatsApp Image 2025-11-13 at 20 23 29_a377d577](https://github.com/user-attachments/assets/70b78348-2c18-4f41-827a-5487119c7892)
+
 
 
 
