@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
 import {
   View,
   Text,
@@ -7,13 +7,17 @@ import {
   FlatList,
   StyleSheet,
   SafeAreaView,
+  ScrollView,
   KeyboardAvoidingView,
   Platform,
-  ScrollView,
 } from "react-native";
 // Make sure to install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
 
+// Shared Menu Context
 type MenuItem = {
   id: number;
   name: string;
@@ -22,18 +26,78 @@ type MenuItem = {
   price: string;
 };
 
-export default function App() {
+type MenuContextType = {
+  menuItems: MenuItem[];
+  setMenuItems: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+};
+
+const MenuContext = createContext<MenuContextType | null>(null);
+const useMenu = () => useContext(MenuContext)!;
+
+// Navigation Tabs
+const Tab = createBottomTabNavigator();
+
+// Home Screen
+function HomeScreen() {
+  const { menuItems } = useMenu();
+
+  // Calculate average prices per course
+  const courses = ["Starters", "Mains", "Dessert"];
+  const averages = courses.map((course) => {
+    const items = menuItems.filter((i) => i.course === course);
+    if (items.length === 0) return { course, avg: 0 };
+    const total = items.reduce((sum, i) => sum + parseFloat(i.price), 0);
+    return { course, avg: total / items.length };
+  });
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>Christoffel's Menu</Text>
+          <Text style={styles.bannerSubText}>Fine Dining at Your Fingertips</Text>
+        </View>
+
+        <View style={styles.formCard}>
+          <Text style={styles.sectionTitle}>Average Price by Course</Text>
+          {averages.map((a) => (
+            <Text key={a.course} style={styles.averageText}>
+              {a.course}: R{a.avg.toFixed(2)}
+            </Text>
+          ))}
+        </View>
+
+        <Text style={styles.totalText}>Total Menu Items: {menuItems.length}</Text>
+
+        {menuItems.map((item) => (
+          <View key={item.id} style={styles.menuCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.menuTitle}>{item.name}</Text>
+              <Text style={styles.menuCourse}>{item.course}</Text>
+            </View>
+            <Text style={styles.menuDescription}>{item.description}</Text>
+            <Text style={styles.menuPrice}>R{item.price}</Text>
+          </View>
+        ))}
+
+        {menuItems.length === 0 && (
+          <Text style={styles.emptyText}>No dishes yet — start adding!</Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+//Chef's Screen
+function ChefScreen() {
+  const { menuItems, setMenuItems } = useMenu();
   const [dishName, setDishName] = useState("");
   const [description, setDescription] = useState("");
   const [course, setCourse] = useState("Starters");
   const [price, setPrice] = useState("");
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-
   const courses = ["Starters", "Mains", "Dessert"];
-
   const addMenuItem = () => {
     if (!dishName || !description || !price) return;
-
     const newItem: MenuItem = {
       id: Date.now(),
       name: dishName,
@@ -41,12 +105,15 @@ export default function App() {
       course,
       price,
     };
-
     setMenuItems([...menuItems, newItem]);
     setDishName("");
     setDescription("");
     setPrice("");
     setCourse("Starters");
+  };
+
+  const removeMenuItem = (id: number) => {
+    setMenuItems(menuItems.filter((i) => i.id !== id));
   };
 
   return (
@@ -55,15 +122,11 @@ export default function App() {
         style={{ flex: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
-        <ScrollView
-          style={styles.scrollArea}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ paddingBottom: 100 }}
-        >
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
           <View style={styles.banner}>
-            <Text style={styles.bannerText}>Chef’s Menu Creator</Text>
+            <Text style={styles.bannerText}>Chef's Menu Editor</Text>
             <Text style={styles.bannerSubText}>
-              Design your gourmet menu with variety!
+              Add or remove dishes for the restaurant
             </Text>
           </View>
 
@@ -86,14 +149,12 @@ export default function App() {
               multiline
             />
 
-           {/* Course Picker */}
             <Text style={styles.label}>Select Course</Text>
             <Picker
               selectedValue={course}
               onValueChange={(value) => setCourse(value)}
               style={styles.picker}
               dropdownIconColor="#5A3E36"
-              mode="dropdown"
             >
               {courses.map((c) => (
                 <Picker.Item key={c} label={c} value={c} />
@@ -115,36 +176,118 @@ export default function App() {
           </View>
 
           <Text style={styles.totalText}>
-            Total Menu Items: {menuItems.length}
+            Current Items: {menuItems.length}
           </Text>
 
           {menuItems.map((item) => (
             <View key={item.id} style={styles.menuCard}>
               <View style={styles.cardHeader}>
                 <Text style={styles.menuTitle}>{item.name}</Text>
-                <Text style={styles.menuCourse}>{item.course}</Text>
+                <TouchableOpacity onPress={() => removeMenuItem(item.id)}>
+                  <Ionicons name="trash" size={20} color="#D2691E" />
+                </TouchableOpacity>
               </View>
+              <Text style={styles.menuCourse}>{item.course}</Text>
               <Text style={styles.menuDescription}>{item.description}</Text>
               <Text style={styles.menuPrice}>R{item.price}</Text>
             </View>
           ))}
-
-          {menuItems.length === 0 && (
-            <Text style={styles.emptyText}>No dishes yet — start adding!</Text>
-          )}
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
+//Guest Screen
+function GuestScreen() {
+  const { menuItems } = useMenu();
+  const [selectedCourse, setSelectedCourse] = useState("All");
+  const courses = ["All", "Starters", "Mains", "Dessert"];
+
+  const filteredItems =
+    selectedCourse === "All"
+      ? menuItems
+      : menuItems.filter((i) => i.course === selectedCourse);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <View style={styles.banner}>
+          <Text style={styles.bannerText}>Guest Menu View</Text>
+          <Text style={styles.bannerSubText}>
+            Filter and explore our dishes
+          </Text>
+        </View>
+
+        <View style={styles.formCard}>
+          <Text style={styles.label}>Filter by Course</Text>
+          <Picker
+            selectedValue={selectedCourse}
+            onValueChange={(value) => setSelectedCourse(value)}
+            style={styles.picker}
+            dropdownIconColor="#5A3E36"
+          >
+            {courses.map((c) => (
+              <Picker.Item key={c} label={c} value={c} />
+            ))}
+          </Picker>
+        </View>
+
+        {filteredItems.map((item) => (
+          <View key={item.id} style={styles.menuCard}>
+            <View style={styles.cardHeader}>
+              <Text style={styles.menuTitle}>{item.name}</Text>
+              <Text style={styles.menuCourse}>{item.course}</Text>
+            </View>
+            <Text style={styles.menuDescription}>{item.description}</Text>
+            <Text style={styles.menuPrice}>R{item.price}</Text>
+          </View>
+        ))}
+
+        {filteredItems.length === 0 && (
+          <Text style={styles.emptyText}>No dishes found for this course.</Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+//App root
+export default function App() {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+  return (
+    <MenuContext.Provider value={{ menuItems, setMenuItems }}>
+      <NavigationContainer>
+        <Tab.Navigator
+          screenOptions={({ route }: { route: { name: string } }) => ({
+            headerShown: false,
+            tabBarActiveTintColor: "#D2691E",
+            tabBarInactiveTintColor: "#8A817C",
+            tabBarStyle: { backgroundColor: "#FFF4EA" },
+            tabBarIcon: ({ color, size }: { color: string; size: number }) => {
+              let iconName: any;
+              if (route.name === "Home") iconName = "home";
+              else if (route.name === "Chef") iconName = "restaurant";
+              else iconName = "menu";
+              return <Ionicons name={iconName} size={size} color={color} />;
+            },
+          })}
+        >
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="Chef" component={ChefScreen} />
+          <Tab.Screen name="Guest" component={GuestScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </MenuContext.Provider>
+  );
+}
+
+// Stlyes
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FAF7F0",
-  },
-  scrollArea: {
-    flex: 1,
   },
   banner: {
     backgroundColor: "#5A3E36",
@@ -228,6 +371,12 @@ const styles = StyleSheet.create({
     color: "#5A3E36",
     textAlign: "center",
     marginBottom: 10,
+  },
+  averageText: {
+    textAlign: "center",
+    color: "#3E3E3E",
+    fontSize: 16,
+    marginVertical: 4,
   },
   menuCard: {
     backgroundColor: "#FFFFFF",
