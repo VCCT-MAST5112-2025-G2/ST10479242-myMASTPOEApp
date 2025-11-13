@@ -171,7 +171,7 @@ function ChefScreen() {
             />
 
             <TouchableOpacity style={styles.button} onPress={addMenuItem}>
-              <Text style={styles.buttonText}>➕ Add Menu Item</Text>
+              <Text style={styles.buttonText}>+ Add Menu Item</Text>
             </TouchableOpacity>
           </View>
 
