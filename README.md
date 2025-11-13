@@ -1,20 +1,20 @@
-# 🧑‍💻 Developer
+# Developer
 
 Author: Aneeq Harris ST10479242
 Year: 2025
 Framework: Expo (React Native + TypeScript)
 Purpose: Mobile App Scripting POE — Part 2
 
-# 🍽️ Christoffel's Menu App
+# Christoffel's Menu App
 A simple and elegant React Native app (built with Expo and TypeScript) that allows a chef to create, view, and manage their restaurant menu dynamically.
 
 ---
 # Links
-## Youtube link https://youtube.com/shorts/M-dNjUuAOQE
+## Youtube link
 ## Github link https://github.com/ST10479242/ST10479242-myMASTPOEApp
 
 ---
-## 📱 Overview
+## Overview
 
 The **Christoffel's Menu App** helps chefs quickly add and organize dishes into different courses such as **Starters**, **Mains**, and **Desserts**.  
 All data is stored in memory during the app session — no hardcoded values and no permanent storage needed.
@@ -23,21 +23,21 @@ This app was created for a coursework task to demonstrate basic React Native com
 
 ---
 
-## ✨ Features
+## Features
 
-### 🧾 Menu Creation
+### Menu Creation
 - Add new dishes with:
   - Dish name  
   - Description  
   - Course selection (Starters, Mains, or Dessert)  
   - Price
 
-### 🏠 Home Screen
+### Home Screen
 - Displays all dishes added by the chef.
 - Shows the **total number of menu items**.
 - Each item card includes the name, course, description, and price.
 
-### ⚙️ Technical Highlights
+### Technical Highlights
 - Built using **Expo + React Native + TypeScript**.
 - Fully responsive and styled for a professional, clean layout.
 - Uses **Picker** for dropdown course selection.
@@ -62,8 +62,51 @@ Clean spacing and rounded cards for a friendly, aesthetic appearance.
 
 Layout avoids common FlatList and ScrollView nesting issues for smooth scrolling and dropdowns.
 
+Changelog
 
-## 📦 Screen Shots
+1. Expo & Package Version Updates
+
+Updated Expo SDK from 54.0.18 → 54.0.23 for compatibility.
+
+Downgraded react-native-screens from 4.18.0 → ~4.16.0 per Expo requirement.
+
+Cleared Metro cache and dependencies for optimal performance.
+
+2. UI & Layout Enhancements
+
+Redesigned layout for improved spacing and visual hierarchy.
+
+Fixed overlapping issues with buttons and scrollable views.
+
+Adjusted KeyboardAvoidingView behavior to ensure input visibility.
+
+Improved component alignment for a polished look.
+
+3. Code Optimization
+
+Removed unused imports and redundant components.
+
+Refactored state management logic for cleaner structure.
+
+Ensured TypeScript type consistency and error-free compilation.
+
+4. Styling Improvements
+
+Introduced consistent color palette and typography.
+
+Added subtle transitions for buttons and list items.
+
+Improved card styling for better visual grouping of menu items.
+
+5. General Project Maintenance
+
+Ensured all dependencies are aligned with Expo SDK 54.
+
+Verified that the project runs without console warnings.
+
+
+
+##Screen Shots
 <img width="357" height="666" alt="Screenshot 2025-10-22 174915" src="https://github.com/user-attachments/assets/0d8e1b0e-87c6-47bf-9f5d-052b5ba22709" />
 <img width="357" height="666" alt="Screenshot 2025-10-22 174929" src="https://github.com/user-attachments/assets/7cc91217-8355-4f80-a157-9a3cad6fe068" />
 <img width="357" height="668" alt="Screenshot 2025-10-22 175044" src="https://github.com/user-attachments/assets/6050ed79-4b81-4d0e-9757-f58be9cc592c" />
