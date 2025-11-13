@@ -10,7 +10,7 @@ A simple and elegant React Native app (built with Expo and TypeScript) that allo
 
 ---
 # Links
-## Youtube link
+## Youtube link https://youtube.com/shorts/EqdDlWOWxcg
 ## Github link https://github.com/ST10479242/ST10479242-myMASTPOEApp
 
 ---
